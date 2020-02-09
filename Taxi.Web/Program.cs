@@ -1,12 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+//using System.IO;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Microsoft.AspNetCore;
+//using Microsoft.AspNetCore.Hosting;
+//using Microsoft.Extensions.Configuration;
+//using Microsoft.Extensions.Logging;
+
+//namespace Taxi.Web
+//{
+//    public class Program
+//    {
+//        public static void Main(string[] args)
+//        {
+//            CreateWebHostBuilder(args).Build().Run();
+//        }
+
+//        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+//            WebHost.CreateDefaultBuilder(args)
+//                .UseStartup<Startup>();
+//    }
+//}
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Taxi.Web.Data;
 
 namespace Taxi.Web
 {
@@ -14,11 +33,25 @@ namespace Taxi.Web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            IWebHost host = CreateWebHostBuilder(args).Build();
+            RunSeeding(host);
+            host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        private static void RunSeeding(IWebHost host)
+        {
+            IServiceScopeFactory scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (IServiceScope scope = scopeFactory.CreateScope())
+            {
+                SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
+                seeder.SeedAsync().Wait();
+            }
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+        }
     }
 }
+
