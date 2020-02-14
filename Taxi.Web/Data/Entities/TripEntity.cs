@@ -15,13 +15,21 @@ namespace Taxi.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = false)]
         public DateTime StartDate { get; set; }
 
-        public DateTime StartDateLocal => StartDate.ToLocalTime();
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Start Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = false)]
+        public DateTime StartDateLocal => StartDate.ToLocalTime();
+
+        [DataType(DataType.DateTime)]
+        [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = false)]
         public DateTime? EndDate { get; set; }
 
+
+        [DataType(DataType.DateTime)]
+        [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = false)]
         public DateTime? EndDateLocal => EndDate?.ToLocalTime();
 
         [MaxLength(100, ErrorMessage = "The {0} field must have {1} characters.")]
@@ -45,6 +53,8 @@ namespace Taxi.Web.Data.Entities
         public TaxiEntity Taxi { get; set; }
 
         public ICollection<TripDetailEntity> TripDetails { get; set; }
+
+        public UserEntity User { get; set; }
 
     }
 }
