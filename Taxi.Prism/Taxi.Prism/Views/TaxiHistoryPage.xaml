@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Taxi.Prism.Views.TaxiHistoryPage"
              Title="{Binding Title}">
@@ -18,18 +19,20 @@
                    Placeholder="Enter plaque..." 
                    Text="{Binding Plaque}"
                    VerticalOptions="Center"/>
-                <Button BackgroundColor="Navy"
-                    Command="{Binding CheckPlaqueCommand}"
-                    CornerRadius="20"
-                    HeightRequest="40"
+                <Button Command="{Binding CheckPlaqueCommand}"
                     Margin="10,0"
-                    Text="Check Plaque"
-                    TextColor="White"/>
+                    Text="Check Plaque"/>
             </StackLayout>
+            <rating:SfRating HorizontalOptions="Center"
+                             IsEnabled="False"
+                             Margin="0,5"
+                             Precision="Exact"
+                             Value="{Binding Taxi.Qualification}" />
             <Label FontAttributes="Bold" 
-               FontSize="48"
-               HorizontalOptions="Center"
-               Text="{Binding Taxi.Qualification, StringFormat='{0:N2}'}"/>
+                   FontSize="Large"
+                   HorizontalOptions="Center"
+                   Text="{Binding Taxi.Qualification, StringFormat='Qualification: {0:N2}'}"/>
+
             <StackLayout Orientation="Horizontal">
                 <Label Text="Numero de viajes:"/>
                 <Label Text="{Binding Taxi.NumberOfTrips, StringFormat='{0:N0}'}"/>
@@ -89,16 +92,16 @@
             </CollectionView>
         </StackLayout>
         <busyindicator:SfBusyIndicator AnimationType="Gear" 
-                                       AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
-                	                   AbsoluteLayout.LayoutFlags="All"
-                	                   BackgroundColor="Silver"
-                	                   HorizontalOptions="Center"
-                	                   TextColor="White"
-                	                   IsVisible="{Binding IsRunning}"
-                	                   Title="Loading..."
-                	                   VerticalOptions="Center"
-                	                   ViewBoxWidth="80"
-                	                   ViewBoxHeight="80" />
+                                    AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                	                AbsoluteLayout.LayoutFlags="All"
+                	                BackgroundColor="{StaticResource ColorDanger}"
+                	                HorizontalOptions="Center"
+                	                TextColor="{StaticResource ColorFontInverse}"
+                	                IsVisible="{Binding IsRunning}"
+                	                Title="Loading"
+                	                VerticalOptions="Center"
+                	                ViewBoxWidth="80"
+                	                ViewBoxHeight="80" />
 
     </AbsoluteLayout>
 </ContentPage>
